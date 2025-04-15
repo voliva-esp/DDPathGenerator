@@ -14,7 +14,7 @@ pytestmark = pytest.mark.parametrize("file_name,expected_paths",
 
 class ITest:
     def generate_path_file(self, file_name):
-        return f"./test/circuits/{file_name}.qasm"
+        return f"./test/circuit/{file_name}.qasm"
 
     def assert_path(self, file_name, expected_paths, path_name):
         file_path = self.generate_path_file(file_name)
