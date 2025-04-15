@@ -8,7 +8,13 @@ pytestmark = pytest.mark.parametrize("file_name,expected_paths",
                                      [
                                          ("small_2_2g", {
                                              PATH_SEQUENTIAL: [(0, 1)],
-                                         })
+                                         }),
+                                         ("small_2_5g", {
+                                             PATH_SEQUENTIAL: [(0, 1), (0, 3), (0, 2), (0, 1)],
+                                         }),
+                                         ("small_2_8g", {
+                                             PATH_SEQUENTIAL: [(0, 1), (0, 6), (0, 5), (0, 4), (0, 3), (0, 2), (0, 1)],
+                                         }),
                                      ])
 
 
