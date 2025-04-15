@@ -1,3 +1,4 @@
+
 [project]
 name = "DDPathGenerator"
 version = "0.0.1"
@@ -20,4 +21,4 @@ Issues = "https://github.com/voliva-esp/DDPathGenerator/issues"
 
 [build-system]
 # Minimum requirements for the build system to execute.
-requires = ["qiskit>=1.2.4"]
+requires = ["setuptools"]

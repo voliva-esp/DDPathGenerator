@@ -1,16 +1,16 @@
 from .naive_path_generator import generate_sequential_path
 from .literal import PATH_SEQUENTIAL
-from qiskit import QuantumCircuit
 
 
 class QiskitPathGenerator:
-    def __init__(self, qc: QuantumCircuit):
-        self.qc = qc
+    def __init__(self, tensor_list, open_indices):
+        self.tensor_list = tensor_list
+        self.open_indices = open_indices
 
     def generate_path(self, selected_path: str):
         path = None
         if selected_path == PATH_SEQUENTIAL:
-            path = generate_sequential_path(self.qc)
+            path = generate_sequential_path(self.tensor_list)
         return path
 
 
