@@ -4,7 +4,7 @@ import pytest
 
 pytestmark = pytest.mark.parametrize("tensor_list,open_indices,expected_paths",
                                      [
-                                         (   # Simple circuit with 2 qubits and 2 cx simulated open - open
+                                         (   # Simple circuit with 3 qubits and 2 cx simulated open - open
                                              (
                                                 ('x0', 'y0', 'x1', 'x1_1'),
                                                 ('x2', 'y2', 'x1_1', 'y1'),
@@ -14,7 +14,7 @@ pytestmark = pytest.mark.parametrize("tensor_list,open_indices,expected_paths",
                                                 PATH_SEQUENTIAL: [(0, 1)],
                                              }
                                          ),
-                                         (   # Simple circuit with 2 qubits and 2 cx simulated close - open
+                                         (   # Simple circuit with 3 qubits and 2 cx simulated close - open
                                              (
                                                 ('x0',),
                                                 ('x1',),
@@ -27,7 +27,7 @@ pytestmark = pytest.mark.parametrize("tensor_list,open_indices,expected_paths",
                                                 PATH_SEQUENTIAL: [(0, 1), (0, 3), (0, 2), (0, 1)],
                                              }
                                          ),
-                                         (   # Simple circuit with 2 qubits and 2 cx simulated open - close
+                                         (   # Simple circuit with 3 qubits and 2 cx simulated open - close
                                              (
                                                 ('x0', 'y0', 'x1', 'x1_1'),
                                                 ('x2', 'y2', 'x1_1', 'y1'),
@@ -40,7 +40,7 @@ pytestmark = pytest.mark.parametrize("tensor_list,open_indices,expected_paths",
                                                 PATH_SEQUENTIAL: [(0, 1), (0, 3), (0, 2), (0, 1)],
                                              }
                                          ),
-                                         (   # Simple circuit with 2 qubits and 2 cx simulated close - close
+                                         (   # Simple circuit with 3 qubits and 2 cx simulated close - close
                                              (
                                                 ('x0',),
                                                 ('x1',),
@@ -54,7 +54,94 @@ pytestmark = pytest.mark.parametrize("tensor_list,open_indices,expected_paths",
                                              (),
                                              {
                                                 PATH_SEQUENTIAL: [
-                                                    (0, 1), (0, 6), (0, 5), (0, 4), (0, 3), (0, 2), (0, 1)
+                                                    (0, 1), (0, 6), (0, 5), (0, 4), (0, 3), (0, 2), (0, 1),
+                                                ],
+                                             }
+                                         ),
+                                         (   # Simple circuit with 3 qubits and 3h-3cx-2x simulated open - open
+                                             (
+                                                 ('x0', 'x0_1'),
+                                                 ('x1', 'x1_1'),
+                                                 ('x2', 'x2_1'),
+                                                 ('x0_1', 'x1_1', 'x1_2'),
+                                                 ('x2_1', 'y2', 'x1_2', 'x1_3'),
+                                                 ('x1_3', 'x0_1', 'x0_2'),
+                                                 ('x0_2', 'y0'),
+                                                 ('x1_3', 'y1')
+                                             ),
+                                             ('x0', 'x1', 'x2', 'y0', 'y1', 'y2'),
+                                             {
+                                                PATH_SEQUENTIAL: [
+                                                    (0, 1), (0, 6), (0, 5), (0, 4), (0, 3), (0, 2), (0, 1),
+                                                ],
+                                             }
+                                         ),
+                                         (   # Simple circuit with 3 qubits and 3h-3cx-2x simulated close - open
+                                             (
+                                                 ('x0',),
+                                                 ('x1',),
+                                                 ('x2',),
+                                                 ('x0', 'x0_1'),
+                                                 ('x1', 'x1_1'),
+                                                 ('x2', 'x2_1'),
+                                                 ('x0_1', 'x1_1', 'x1_2'),
+                                                 ('x2_1', 'y2', 'x1_2', 'x1_3'),
+                                                 ('x1_3', 'x0_1', 'x0_2'),
+                                                 ('x0_2', 'y0'),
+                                                 ('x1_3', 'y1'),
+                                             ),
+                                             ('y0', 'y1', 'y2'),
+                                             {
+                                                PATH_SEQUENTIAL: [
+                                                    (0, 1), (0, 9), (0, 8), (0, 7), (0, 6),
+                                                    (0, 5), (0, 4), (0, 3), (0, 2), (0, 1),
+                                                ],
+                                             }
+                                         ),
+                                         (   # Simple circuit with 3 qubits and 3h-3cx-2x simulated open - close
+                                             (
+                                                 ('x0', 'x0_1'),
+                                                 ('x1', 'x1_1'),
+                                                 ('x2', 'x2_1'),
+                                                 ('x0_1', 'x1_1', 'x1_2'),
+                                                 ('x2_1', 'y2', 'x1_2', 'x1_3'),
+                                                 ('x1_3', 'x0_1', 'x0_2'),
+                                                 ('x0_2', 'y0'),
+                                                 ('x1_3', 'y1'),
+                                                 ('y0',),
+                                                 ('y1',),
+                                                 ('y2',)
+                                             ),
+                                             ('x0', 'x1', 'x2'),
+                                             {
+                                                PATH_SEQUENTIAL: [
+                                                    (0, 1), (0, 9), (0, 8), (0, 7), (0, 6),
+                                                    (0, 5), (0, 4), (0, 3), (0, 2), (0, 1),
+                                                ],
+                                             }
+                                         ),
+                                         (   # Simple circuit with 3 qubits and 3h-3cx-2x simulated close - close
+                                             (
+                                                 ('x0',),
+                                                 ('x1',),
+                                                 ('x2',),
+                                                 ('x0', 'x0_1'),
+                                                 ('x1', 'x1_1'),
+                                                 ('x2', 'x2_1'),
+                                                 ('x0_1', 'x1_1', 'x1_2'),
+                                                 ('x2_1', 'y2', 'x1_2', 'x1_3'),
+                                                 ('x1_3', 'x0_1', 'x0_2'),
+                                                 ('x0_2', 'y0'),
+                                                 ('x1_3', 'y1'),
+                                                 ('y0',),
+                                                 ('y1',),
+                                                 ('y2',)
+                                             ),
+                                             (),
+                                             {
+                                                PATH_SEQUENTIAL: [
+                                                    (0, 1), (0, 12), (0, 11), (0, 10), (0, 9), (0, 8),
+                                                    (0, 7), (0, 6), (0, 5), (0, 4), (0, 3), (0, 2), (0, 1),
                                                 ],
                                              }
                                          )
