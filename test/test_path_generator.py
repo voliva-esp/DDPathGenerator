@@ -1,4 +1,4 @@
-from DDPathGenerator import QiskitPathGenerator, PATH_SEQUENTIAL
+from DDPathGenerator import PathGenerator, PATH_SEQUENTIAL
 import pytest
 
 
@@ -150,7 +150,7 @@ pytestmark = pytest.mark.parametrize("tensor_list,open_indices,expected_paths",
 
 class ITest:
     def assert_path(self, tensor_list, open_indices, expected_paths, path_name):
-        pg = QiskitPathGenerator(tensor_list, open_indices)
+        pg = PathGenerator(tensor_list, open_indices)
         path = pg.generate_path(path_name)
         assert path, expected_paths[path_name]
 
