@@ -40,5 +40,5 @@ pytestmark = pytest.mark.parametrize("pos_tensor_list,shift_end,expected_paths",
 class TestNaivePathGenerator:
     def test_sequential_path_shifted(self, pos_tensor_list, shift_end, expected_paths):
         path = generate_sequential_path_shifted(pos_tensor_list, shift_end)
-        assert path, expected_paths[TEST_PATH_SEQUENTIAL_SHIFTED]
+        assert path == expected_paths[TEST_PATH_SEQUENTIAL_SHIFTED]
 

@@ -1,5 +1,5 @@
-from .naive_path_generator import generate_sequential_path
-from .literal import PATH_SEQUENTIAL
+from .naive_path_generator import generate_sequential_path, generate_k_ops_path
+from .literal import PATH_SEQUENTIAL, PATH_KOPS
 from .data import TensorNetwork
 
 
@@ -11,6 +11,8 @@ class PathGenerator:
         path = None
         if selected_path == PATH_SEQUENTIAL:
             path = generate_sequential_path(self.tensor_network)
+        elif selected_path == PATH_KOPS:
+            path = generate_k_ops_path(self.tensor_network)
         return path
 
 
