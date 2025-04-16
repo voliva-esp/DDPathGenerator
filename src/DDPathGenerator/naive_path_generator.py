@@ -1,6 +1,34 @@
+from .data import TensorNetwork
+
+
 import math
 
-from .data import TensorNetwork
+
+def _get_number_of_init_tensors(pg: TensorNetwork):
+    """
+    Calculates the number of tensors with only one index at the beginning of the tensor list. This will be
+    considered the input state of the Tensor Network (if it has the input closed)
+    :param pg: Object of the TensorNetwork containing all the relevant information of the circuit to contract
+    :return: Number of tensors at the beginning of the list with only one index represented as int
+    """
+    n_tensors_init = 0
+    while len(pg.tensor_list[n_tensors_init]) == 1:
+        n_tensors_init += 1
+    return n_tensors_init
+
+
+def _get_number_of_end_tensors(pg: TensorNetwork):
+    """
+    Calculates the number of tensors with only one index at the end of the tensor list. This will be considered
+    the output state of the Tensor Network (if it has the output closed)
+    :param pg: Object of the TensorNetwork containing all the relevant information of the circuit to contract
+    :return: Number of tensors at the end of the list with only one index represented as int
+    """
+    n = len(pg.tensor_list)
+    n_tensors_end = 0
+    while len(pg.tensor_list[n - n_tensors_end - 1]) == 1:
+        n_tensors_end += 1
+    return n_tensors_end
 
 
 def generate_sequential_path_shifted(pos_tensor_list: list, shift_end=0):
@@ -41,13 +69,9 @@ def generate_k_ops_path(pg: TensorNetwork, k=4):
     :param k: int value that set the number of contractions per operation block
     :return: The generated path for the given TensorNetwork using the sequential path
     """
+    shift_ini = _get_number_of_init_tensors(pg)
+    shift_end = _get_number_of_end_tensors(pg)
     n = len(pg.tensor_list)
-    shift_ini = 0
-    while len(pg.tensor_list[shift_ini]) == 1:
-        shift_ini += 1
-    shift_end = 0
-    while len(pg.tensor_list[n - shift_end - 1]) == 1:
-        shift_end += 1
     n_gates = n - shift_ini - shift_end
     n_block = math.ceil((n_gates / k))
     path = []
