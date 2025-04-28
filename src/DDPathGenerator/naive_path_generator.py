@@ -1,6 +1,5 @@
 from .data import TensorNetwork
 
-
 import math
 
 
@@ -89,4 +88,50 @@ def generate_k_ops_path(pg: TensorNetwork, k=4):
     return path
 
 
+def _generate_partial_iter(n: int, total_gates: int, first=0):
+    if n < 2:
+        return []
+    partial_path = []
+    i = 0
+    while i < n - 1:
+        partial_path.append((first, first + 1))
+        i += 2
+    if n % 2 != 0:
+        partial_path.append((first, total_gates - (n // 2)))
+    return partial_path
 
+
+def _generate_shifted_iter(n_gates: int, shift_ini=0, shift_end=0):
+    """
+    Generalization for calculating the contraction path using the iterative heuristic. Can calculate the
+        path for a given number of tensor, without the need of including all of them.
+    :param n_gates:    Number of gates to contract
+    :param shift_ini:  Number of tensor to be ignored that are at the left of the tensors list
+    :param shift_end:  Number of tensor to be ignored that are at the right of the tensors list
+    :return: The generated path, in the form of list of pos indices
+    """
+    n = n_gates - shift_ini - shift_end
+    first = shift_ini
+    path = _generate_partial_iter(n=n, total_gates=n_gates, first=first)
+    n = (n - n % 2) // 2
+    first += shift_end
+    while n > 1:
+        remain_gates = n + first
+        path += _generate_partial_iter(n=n, total_gates=remain_gates, first=first)
+        n = (n - n % 2) // 2
+    return path
+
+
+def generate_iter_path(pg: TensorNetwork):
+    """
+    Calculates the path for a given TensorNetwork using the iterative heuristic
+    :param pg: Object of the TensorNetwork containing all the relevant information of the circuit to contract
+    :return: The generated path for the given TensorNetwork using the iterative path
+    """
+    shift_ini = _get_number_of_init_tensors(pg)
+    shift_end = _get_number_of_end_tensors(pg)
+    n = len(pg.tensor_list)
+    last_gates = shift_ini + shift_end + 1
+
+    return _generate_shifted_iter(n_gates=n, shift_ini=shift_ini, shift_end=shift_end) + \
+           generate_sequential_path_shifted(list(range(last_gates)))
